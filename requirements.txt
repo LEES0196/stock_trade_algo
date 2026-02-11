@@ -1,6 +1,12 @@
-pandas>=2.2
-numpy>=1.26
-yfinance>=0.2
-dash>=2.16
-plotly>=5.0
+numpy>=1.23
+pandas>=1.5
 pyyaml>=6.0
+yfinance>=0.2.28
+torch>=2.1
+pytorch-forecasting>=1.0.0
+pytorch-lightning>=2.1.0
+transformers>=4.34
+stable-baselines3>=2.2.1
+gymnasium>=0.29.1
+riskfolio-lib>=4.1.1
+

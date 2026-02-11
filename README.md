@@ -1,110 +1,145 @@
-# Auto Portfolio Strategy (Baseline)
+# Autonomous Algorithmic Trading Agent (EDA Scaffold)
 
-This repository contains a simple, modular Python implementation of a momentum‑tilt investment strategy. It is built from the high‑level design outlined in the provided PDF document and exposes a small Dash (Plotly) application so non‑technical users can run the strategy through a graphical interface.
+This repository provides a modular, event-driven scaffold for an autonomous algorithmic trading agent. It separates ingestion, modeling, strategy, risk, execution, and portfolio optimization into focused components to avoid a monolithic script.
 
-**Important disclaimer:**  The code in this repository is for educational and research purposes only and does **not** constitute financial advice.  It does not take into account your personal financial circumstances and should not be used to make live trading decisions without consulting a qualified professional.
-
-## Repository structure
+## Project Structure
 
 ```
-auto_portfolio/
-├── config/
-│   └── base.yaml           # Default configuration describing tickers, lookbacks and weights
-├── requirements.txt        # Minimal Python dependencies
-├── src/
-│   ├── app/
-│   │   ├── __init__.py
-│   │   └── dash_app.py     # Dash UI for running the strategy from a YAML config
-│   └── strategy/
-│       ├── __init__.py
-│       ├── data.py         # Download and cache price data using yfinance
-│       ├── features.py     # Build monthly return features
-│       ├── algo_rules.py   # Algorithm 1: rule‑based aggressive/passive logic
-│       ├── algo_scores.py  # Algorithm 2: score‑based logic
-│       ├── blend.py        # Combine the two allocation schemes
-│       ├── allocate.py     # Orchestrate the full pipeline
-│       └── io.py           # I/O helper for saving decisions to CSV
-└── README.md               # This file
+/trading_agent
+    /config
+        config.yaml          # User inputs: Max Drawdown, Capital, Risk Tolerance
+    /core
+        events.py            # Event classes (MarketEvent, SignalEvent, OrderEvent, FillEvent)
+        event_bus.py         # Async Event Bus/Queue handler (pub/sub)
+    /data
+        ingestion.py         # YFinance wrapper
+        processor.py         # Feature Engineering (SMA, Volatility)
+    /models
+        alpha_tft.py         # TFTModel: inference-only placeholder
+        sentiment_bert.py    # FinBERT wrapper with keyword fallback
+        execution_ppo.py     # PPOExecutor + custom Gym env
+    /strategies
+        hybrid_manager.py    # Ensemble voting (ML + MA) with volatility gating
+        risk_guardrail.py    # Max Drawdown guardrail
+    /portfolio
+        rebalancer.py        # Threshold-based rebalance trigger
+        optimizer.py         # Riskfolio-Lib Sharpe maximization
+    main_agent.py            # Orchestrator wiring the event loop (simulated feed + backtest broker)
+    /backtest
+        sim_broker.py       # Simple broker executing orders and emitting FillEvents
 ```
 
-## Getting started
+## Event-Driven Flow
 
-1. **Install dependencies**.  Use a fresh virtual environment and install the packages listed in `requirements.txt`:
+- MarketEvent: New market state x_t (OHLCV + features)
+- Strategy: Produce SignalEvent s_t in [-1, 1]
+- Risk: Block or allow based on drawdown constraint
+- Execution: Map signal to OrderEvent (target weight/side)
+- Fill: (Future) Confirm execution, update PnL/drawdown state
 
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate
-   pip install -r requirements.txt
-   ```
+Core bus: `trading_agent/core/event_bus.py` implements async pub/sub by event type.
 
-2. **Adjust the configuration**. The file `config/base.yaml` defines the universe of tickers, lookback periods and blending weights. Edit this YAML file to suit your needs; you can copy it to a new file and paste it into the Dash UI as text.
+## Key Components
 
-3. **Run the Dash app**. Launch the interface by executing:
+- Core
+  - `trading_agent/core/events.py`: Base `Event` + `MarketEvent`, `SignalEvent`, `OrderEvent`, `FillEvent`.
+  - `trading_agent/core/event_bus.py`: Asyncio queue dispatcher with type subscriptions.
+- Data
+  - `trading_agent/data/ingestion.py`: `yfinance` fetch wrapper.
+  - `trading_agent/data/processor.py`: Adds SMA and realized volatility features.
+- Models
+  - `trading_agent/models/alpha_tft.py`: `TFTModel.predict(lookback)` — inference-only placeholder (falls back to naive last price if torch unavailable).
+  - `trading_agent/models/sentiment_bert.py`: FinBERT sentiment with safe keyword fallback when models aren’t available.
+  - `trading_agent/models/execution_ppo.py`: `PPOExecutor` and a custom Gym env with obs = (price, volume, balance), action = target weight in [-1, 1]. Falls back to a heuristic if SB3 is unavailable.
+- Strategies
+  - `trading_agent/strategies/hybrid_manager.py`: Voting logic: if volatility > threshold, ignore ML and rely on mean reversion (MA). Else take median of TFT, FinBERT, and MA signals.
+  - `trading_agent/strategies/risk_guardrail.py`: `check_risk(order)` blocks trades when current drawdown > `config.max_drawdown`.
+- Portfolio
+  - `trading_agent/portfolio/optimizer.py`: Riskfolio-Lib Sharpe maximization with equal-weight fallback.
+  - `trading_agent/portfolio/rebalancer.py`: Rebalance trigger when `|w - w*| > threshold`.
+- Orchestration
+  - `trading_agent/main_agent.py`: Loads `config.yaml`, initializes EventBus and components, and simulates a small feed to demonstrate the event flow.
 
-   ```bash
-   python -m src.app.dash_app
-   ```
+## Configuration
 
-   Your browser opens a Dash page. You can now configure the strategy in two ways:
-   - Use the form controls (recommended): pick period/interval, edit tickers, and adjust numeric options with up/down arrows (e.g., Passive top N). Click "Run (Form)".
-   - Advanced: paste/edit the full YAML and click "Run from YAML".
+Edit `trading_agent/config/config.yaml`:
 
-4. **Unit tests (optional)**.  You can add your own tests under a `tests/` folder and run them with pytest.  Writing tests helps you verify that modifications to the strategy behave as expected.
+- `capital`: starting equity (e.g., 100000)
+- `max_drawdown`: max allowed drawdown (e.g., 0.2 = 20%)
+- `risk_tolerance`: qualitative flag
+- `volatility_threshold`: gating for the ensemble (ignore ML above this)
+- `rebalancing_threshold`: drift band for rebalancing
+- `ppo`: PPO hyperparameters (learning rate, gamma, etc.)
+- `data`: symbol, lookback, interval, start/end for ingestion
 
-## Extending the strategy
+### Parameter Details
 
-This baseline is intentionally minimal to make it easy to experiment.  To extend or modify the strategy:
+- `capital` (float)
+  - Units: quote currency of the instrument (e.g., USD for US equities like AAPL from yfinance).
+  - Meaning: initial cash used by the backtest broker to size trades and compute equity/PnL.
+  - Typical values: 10_000 to 1_000_000.
 
-* **Change the universe** by editing the `aggressive`, `passive` and `score_set` lists in the YAML config.
-* **Modify lookbacks or weights** using the form controls (months, passive_top_n with arrows, cash_score slider, blend) or by editing the YAML directly.
-* **Implement different algorithms** by editing `algo_rules.py` or `algo_scores.py`.  Each function accepts a pandas DataFrame of monthly returns and should return a dictionary mapping tickers to weights.
-* **Add constraints** such as maximum weight caps by modifying the `blend()` function or adding new parameters.
+- `max_drawdown` (float in [0, 1])
+  - Purpose: hard risk constraint; blocks orders once current drawdown exceeds this threshold.
+  - Calculation: drawdown = max(0, 1 - equity / peak_equity).
+  - Typical range: 0.1–0.3 (10–30%). Lower is stricter.
 
-Always test your changes on historical data and consider the risks of any strategy before using it in practice.
+- `risk_tolerance` (string)
+  - Values: low | medium | high (free-form).
+  - Current use: informational placeholder for future risk scaling (e.g., volatility target, position caps).
 
-## Neural network predictor (optional)
+- `volatility_threshold` (float)
+  - Units: realized volatility estimate on the return series (per bar).
+  - Role: volatility gating in the hybrid manager; if vol > threshold, ignore ML (TFT/BERT) and rely on mean reversion.
+  - Typical daily values: 0.01–0.05 (1–5%); tune to bar interval.
 
-You can switch from the baseline momentum allocation to a neural network–based predictor that classifies whether the cumulative return over a future horizon will be positive, then allocates across assets that meet a confidence threshold.
+- `rebalancing_threshold` (float in [0, 1])
+  - Role: threshold-band policy; trigger rebalance when |w_current − w_target| > threshold for any asset.
+  - Typical range: 0.02–0.10. Larger bands reduce churn; smaller bands track targets closely.
 
-- Enable it by adding a `model` section in `config/base.yaml` (already included):
+- `ppo` (mapping)
+  - `learning_rate`: step size for PPO optimizer (e.g., 3e-4).
+  - `gamma`: discount factor in [0,1] (e.g., 0.99).
+  - `n_steps`: rollout length per update (e.g., 2048).
+  - `batch_size`: minibatch size for updates (e.g., 64).
+  - Note: PPO training is not wired in the orchestrator yet; used when adding a training routine.
 
-  - `model.type`: set to `"nn"` to enable the neural path
-  - `model.lookback_window`: number of past steps used as features
-  - `model.time_interval`: forecast horizon relative to `data.interval` (e.g., `"5d"` for 5 days)
-  - `model.confidence_interval`: probability threshold [0,1] to include an asset in the allocation
-  - `model.train`: if `true`, the model will train on-the-fly before predicting; otherwise, it will try to load from `model_path`
-  - `model.model_path`: path to save/load the trained model weights (pickle)
+- `data` (mapping)
+  - `symbol`: yfinance ticker (e.g., AAPL, MSFT).
+  - `lookback`: reserved window length for models (not enforced in the orchestrator loop yet).
+  - `interval`: yfinance bar size (e.g., 1d, 1h, 1wk, 1mo). Intraday history may be limited by provider.
+  - `start`, `end`: ISO dates YYYY-MM-DD defining the data window. Omit `end` to fetch up to the most recent.
 
-To pre-train a model and save weights:
+Currency Note
+-------------
+- All monetary quantities (capital, cash, equity, PnL, commission) are expressed in the instrument’s quote currency. For US equities, this is USD.
 
-```
-python scripts/train_nn.py --config config/base.yaml --epochs 50
-```
+## Installation
 
-Notes:
-- The NN is implemented in pure NumPy for portability and keeps training time modest on small datasets.
-- Allocation logic: equal-weight assets whose probability ≥ `confidence_interval`. If none pass the threshold, pick the highest-probability asset if > 0.5; otherwise allocate to cash.
-- The NN path is fully optional; omitting `model.type: nn` leaves legacy algorithms unchanged.
+- Install Python 3.10+
+- `pip install -r requirements.txt`
+  - Heavy deps are optional at runtime; modules include safe fallbacks:
+    - TFT: falls back to naive forecast
+    - FinBERT: falls back to keyword sentiment
+    - PPO/SB3: falls back to heuristic sizing
 
-### Single-ticker prediction (CLI)
+## Run (YFinance + Backtest)
 
-Predict the probability that a single ticker's cumulative return over a horizon will be positive:
+- `python -m trading_agent.main_agent`
+  - Downloads historical data via `yfinance` using `trading_agent/data/ingestion.py` and generates features via `processor.py`.
+  - Event flow: MarketEvent (per bar) -> SignalEvent -> Risk check -> OrderEvent -> FillEvent.
+  - Backtesting broker executes at bar close with optional slippage/commission and updates equity/drawdown.
 
-```
-python scripts/predict_ticker.py --ticker NVDA --period 5y --interval 1d --time-interval 5d --lookback 60 --confidence 0.7 --train
-```
+## Mathematical Notes (Brief)
 
-- `--ticker`: e.g., `NVDA`.
-- `--time-interval`: forecast horizon relative to `--interval`.
-- `--confidence`: threshold to label as favorable; prints decision.
-- Use `--train` the first time to fit on the downloaded history (or pre-train via `scripts/train_nn.py`).
+- Voting: `s_t = median(s_TFT, s_BERT, s_MA)` if volatility ≤ threshold, else `s_t = s_MA`.
+- Drawdown: `DD_t = max(0, 1 - equity_t / peak_equity_t)`; block if `DD_t > MDD_max`.
+- Rebalancing: trigger when `|w_i - w_i*| > δ` (threshold/band policy).
+- Optimization: maximize Sharpe `((μᵀw - r_f) / √(wᵀΣw))` with Riskfolio-Lib.
 
-### Single-ticker prediction (Dash)
+## Next Steps
 
-The Dash app now includes a "Single‑Ticker NN Prediction" section:
-
-- Enter a `Ticker` (e.g., NVDA), select `Period`, `Interval`, `Time horizon`, `Lookback`, and `Confidence`.
-- Optionally check `Train` to fit on the latest downloaded history before predicting.
-- Click `Predict` to see the probability and decision inline.
-
-Below the prediction controls, the app also plots an estimated price movement over the chosen horizon using a simple GBM simulation calibrated to recent returns (mean and volatility). The shaded area reflects the selected confidence level.
+- Replace the simulated feed with `yfinance` ingestion and `processor` features.
+- Add a broker/backtester to emit `FillEvent` and update portfolio state.
+- Integrate training loops for TFT and PPO; persist models and configs.
+- Expand risk (position limits, volatility targeting), logging, and monitoring.

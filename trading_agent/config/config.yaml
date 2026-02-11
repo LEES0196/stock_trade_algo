@@ -1,0 +1,17 @@
+capital: 100000
+max_drawdown: 0.2
+risk_tolerance: medium
+volatility_threshold: 0.02
+rebalancing_threshold: 0.05
+ppo:
+  learning_rate: 0.0003
+  gamma: 0.99
+  n_steps: 2048
+  batch_size: 64
+data:
+  symbol: AAPL
+  lookback: 120
+  interval: 1d
+  start: 2019-01-01
+  end: 2023-12-31
+
