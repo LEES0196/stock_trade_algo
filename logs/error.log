@@ -1,0 +1,195 @@
+[2025-09-15T19:31:06.926863Z] ImportError in dash_app: ModuleNotFoundError("No module named 'dash'")
+Traceback (most recent call last):
+  File "/Users/isujong/Home/stock/src/app/dash_app.py", line 20, in <module>
+    from dash import (
+ModuleNotFoundError: No module named 'dash'
+
+[2025-09-15T19:32:49.963428Z] Fatal error in app: ObsoleteAttributeException('app.run_server has been replaced by app.run')
+Traceback (most recent call last):
+  File "/Users/isujong/Home/stock/src/app/dash_app.py", line 160, in <module>
+    app.run_server(host="0.0.0.0", port=8050, debug=False)
+    ^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/_obsolete.py", line 22, in __getattr__
+    raise err.exc(err.message)
+dash.exceptions.ObsoleteAttributeException: app.run_server has been replaced by app.run
+
+[2025-09-16T17:57:14.764710Z] Fatal error in app: TypeError('The `dcc.Slider` component (version 3.2.0) with the ID "f-model-conf" received an unexpected keyword argument: `style`\nAllowed arguments: className, disabled, dots, drag_value, id, included, marks, max, min, persisted_props, persistence, persistence_type, step, tooltip, updatemode, value, vertical, verticalHeight')
+Traceback (most recent call last):
+  File "/Users/isujong/Home/stock/src/app/dash_app.py", line 629, in <module>
+    app = create_app()
+          ^^^^^^^^^^^^
+  File "/Users/isujong/Home/stock/src/app/dash_app.py", line 299, in create_app
+    dcc.Slider(id="f-model-conf", min=0.0, max=1.0, step=0.05, value=float(_model.get("confidence_interval", 0.7)), tooltip={"always_visible": False}, style={"maxWidth": "420px"}),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/development/base_component.py", line 475, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/dcc/Slider.py", line 239, in __init__
+    super(Slider, self).__init__(**args)
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/development/base_component.py", line 174, in __init__
+    raise TypeError(
+TypeError: The `dcc.Slider` component (version 3.2.0) with the ID "f-model-conf" received an unexpected keyword argument: `style`
+Allowed arguments: className, disabled, dots, drag_value, id, included, marks, max, min, persisted_props, persistence, persistence_type, step, tooltip, updatemode, value, vertical, verticalHeight
+
+[2025-09-16T17:57:21.506037Z] Fatal error in app: TypeError('The `dcc.Slider` component (version 3.2.0) with the ID "f-model-conf" received an unexpected keyword argument: `style`\nAllowed arguments: className, disabled, dots, drag_value, id, included, marks, max, min, persisted_props, persistence, persistence_type, step, tooltip, updatemode, value, vertical, verticalHeight')
+Traceback (most recent call last):
+  File "/Users/isujong/Home/stock/src/app/dash_app.py", line 629, in <module>
+    app = create_app()
+          ^^^^^^^^^^^^
+  File "/Users/isujong/Home/stock/src/app/dash_app.py", line 299, in create_app
+    dcc.Slider(id="f-model-conf", min=0.0, max=1.0, step=0.05, value=float(_model.get("confidence_interval", 0.7)), tooltip={"always_visible": False}, style={"maxWidth": "420px"}),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/development/base_component.py", line 475, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/dcc/Slider.py", line 239, in __init__
+    super(Slider, self).__init__(**args)
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/development/base_component.py", line 174, in __init__
+    raise TypeError(
+TypeError: The `dcc.Slider` component (version 3.2.0) with the ID "f-model-conf" received an unexpected keyword argument: `style`
+Allowed arguments: className, disabled, dots, drag_value, id, included, marks, max, min, persisted_props, persistence, persistence_type, step, tooltip, updatemode, value, vertical, verticalHeight
+
+[2025-09-16T17:57:37.670601Z] Fatal error in app: TypeError('The `dcc.Slider` component (version 3.2.0) with the ID "f-model-conf" received an unexpected keyword argument: `style`\nAllowed arguments: className, disabled, dots, drag_value, id, included, marks, max, min, persisted_props, persistence, persistence_type, step, tooltip, updatemode, value, vertical, verticalHeight')
+Traceback (most recent call last):
+  File "/Users/isujong/Home/stock/src/app/dash_app.py", line 629, in <module>
+    app = create_app()
+          ^^^^^^^^^^^^
+  File "/Users/isujong/Home/stock/src/app/dash_app.py", line 299, in create_app
+    dcc.Slider(id="f-model-conf", min=0.0, max=1.0, step=0.05, value=float(_model.get("confidence_interval", 0.7)), tooltip={"always_visible": False}, style={"maxWidth": "420px"}),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/development/base_component.py", line 475, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/dcc/Slider.py", line 239, in __init__
+    super(Slider, self).__init__(**args)
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/development/base_component.py", line 174, in __init__
+    raise TypeError(
+TypeError: The `dcc.Slider` component (version 3.2.0) with the ID "f-model-conf" received an unexpected keyword argument: `style`
+Allowed arguments: className, disabled, dots, drag_value, id, included, marks, max, min, persisted_props, persistence, persistence_type, step, tooltip, updatemode, value, vertical, verticalHeight
+
+[2025-09-16T17:58:58.261803Z] Fatal error in app: TypeError('The `dcc.Slider` component (version 3.2.0) with the ID "f-model-conf" received an unexpected keyword argument: `style`\nAllowed arguments: className, disabled, dots, drag_value, id, included, marks, max, min, persisted_props, persistence, persistence_type, step, tooltip, updatemode, value, vertical, verticalHeight')
+Traceback (most recent call last):
+  File "/Users/isujong/Home/stock/src/app/dash_app.py", line 629, in <module>
+    app = create_app()
+          ^^^^^^^^^^^^
+  File "/Users/isujong/Home/stock/src/app/dash_app.py", line 299, in create_app
+    dcc.Slider(id="f-model-conf", min=0.0, max=1.0, step=0.05, value=float(_model.get("confidence_interval", 0.7)), tooltip={"always_visible": False}, style={"maxWidth": "420px"}),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/development/base_component.py", line 475, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/dcc/Slider.py", line 239, in __init__
+    super(Slider, self).__init__(**args)
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/development/base_component.py", line 174, in __init__
+    raise TypeError(
+TypeError: The `dcc.Slider` component (version 3.2.0) with the ID "f-model-conf" received an unexpected keyword argument: `style`
+Allowed arguments: className, disabled, dots, drag_value, id, included, marks, max, min, persisted_props, persistence, persistence_type, step, tooltip, updatemode, value, vertical, verticalHeight
+
+[2025-09-16T17:59:08.784714Z] Fatal error in app: TypeError('The `dcc.Slider` component (version 3.2.0) with the ID "f-model-conf" received an unexpected keyword argument: `style`\nAllowed arguments: className, disabled, dots, drag_value, id, included, marks, max, min, persisted_props, persistence, persistence_type, step, tooltip, updatemode, value, vertical, verticalHeight')
+Traceback (most recent call last):
+  File "/Users/isujong/Home/stock/src/app/dash_app.py", line 629, in <module>
+    app = create_app()
+          ^^^^^^^^^^^^
+  File "/Users/isujong/Home/stock/src/app/dash_app.py", line 299, in create_app
+    dcc.Slider(id="f-model-conf", min=0.0, max=1.0, step=0.05, value=float(_model.get("confidence_interval", 0.7)), tooltip={"always_visible": False}, style={"maxWidth": "420px"}),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/development/base_component.py", line 475, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/dcc/Slider.py", line 239, in __init__
+    super(Slider, self).__init__(**args)
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/development/base_component.py", line 174, in __init__
+    raise TypeError(
+TypeError: The `dcc.Slider` component (version 3.2.0) with the ID "f-model-conf" received an unexpected keyword argument: `style`
+Allowed arguments: className, disabled, dots, drag_value, id, included, marks, max, min, persisted_props, persistence, persistence_type, step, tooltip, updatemode, value, vertical, verticalHeight
+
+[2025-09-16T18:00:10.317753Z] Fatal error in app: TypeError('The `dcc.Slider` component (version 3.2.0) with the ID "f-model-conf" received an unexpected keyword argument: `style`\nAllowed arguments: className, disabled, dots, drag_value, id, included, marks, max, min, persisted_props, persistence, persistence_type, step, tooltip, updatemode, value, vertical, verticalHeight')
+Traceback (most recent call last):
+  File "/Users/isujong/Home/stock/src/app/dash_app.py", line 648, in <module>
+    app = create_app()
+          ^^^^^^^^^^^^
+  File "/Users/isujong/Home/stock/src/app/dash_app.py", line 302, in create_app
+    dcc.Slider(id="f-model-conf", min=0.0, max=1.0, step=0.05, value=float(_model.get("confidence_interval", 0.7)), tooltip={"always_visible": False}, style={"maxWidth": "420px"}),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/development/base_component.py", line 475, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/dcc/Slider.py", line 239, in __init__
+    super(Slider, self).__init__(**args)
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/development/base_component.py", line 174, in __init__
+    raise TypeError(
+TypeError: The `dcc.Slider` component (version 3.2.0) with the ID "f-model-conf" received an unexpected keyword argument: `style`
+Allowed arguments: className, disabled, dots, drag_value, id, included, marks, max, min, persisted_props, persistence, persistence_type, step, tooltip, updatemode, value, vertical, verticalHeight
+
+[2025-09-16T18:01:17.591607Z] Fatal error in app: TypeError('The `dcc.Slider` component (version 3.2.0) with the ID "f-model-conf" received an unexpected keyword argument: `style`\nAllowed arguments: className, disabled, dots, drag_value, id, included, marks, max, min, persisted_props, persistence, persistence_type, step, tooltip, updatemode, value, vertical, verticalHeight')
+Traceback (most recent call last):
+  File "/Users/isujong/Home/stock/src/app/dash_app.py", line 652, in <module>
+    app = create_app()
+          ^^^^^^^^^^^^
+  File "/Users/isujong/Home/stock/src/app/dash_app.py", line 306, in create_app
+    dcc.Slider(id="f-model-conf", min=0.0, max=1.0, step=0.05, value=float(_model.get("confidence_interval", 0.7)), tooltip={"always_visible": False}, style={"maxWidth": "420px"}),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/development/base_component.py", line 475, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/dcc/Slider.py", line 239, in __init__
+    super(Slider, self).__init__(**args)
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/dash/development/base_component.py", line 174, in __init__
+    raise TypeError(
+TypeError: The `dcc.Slider` component (version 3.2.0) with the ID "f-model-conf" received an unexpected keyword argument: `style`
+Allowed arguments: className, disabled, dots, drag_value, id, included, marks, max, min, persisted_props, persistence, persistence_type, step, tooltip, updatemode, value, vertical, verticalHeight
+
+[2025-09-19T02:49:30.244444Z] ImportError in dash_app: ModuleNotFoundError("No module named 'dash'")
+Traceback (most recent call last):
+  File "/Users/isujong/Home/stock/src/app/dash_app.py", line 25, in <module>
+    from dash import (
+ModuleNotFoundError: No module named 'dash'
+
+[2025-09-19T02:51:50.066583Z] Predict callback error: TypeError('Invalid comparison between dtype=datetime64[ns] and Timestamp')
+Traceback (most recent call last):
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/pandas/core/arrays/datetimelike.py", line 559, in _validate_comparison_value
+    self._check_compatible_with(other)
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/pandas/core/arrays/datetimes.py", line 542, in _check_compatible_with
+    self._assert_tzawareness_compat(other)
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/pandas/core/arrays/datetimes.py", line 784, in _assert_tzawareness_compat
+    raise TypeError(
+TypeError: Cannot compare tz-naive and tz-aware datetime-like objects.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/pandas/core/arrays/datetimelike.py", line 1006, in _cmp_method
+    other = self._validate_comparison_value(other)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/pandas/core/arrays/datetimelike.py", line 562, in _validate_comparison_value
+    raise InvalidComparison(other) from err
+pandas.errors.InvalidComparison: 2025-07-21 02:51:50.065945+00:00
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/isujong/Home/stock/src/app/dash_app.py", line 777, in on_predict
+    hist = s[s.index >= start_dt]
+             ^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/pandas/core/ops/common.py", line 76, in new_method
+    return method(self, other)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/pandas/core/arraylike.py", line 60, in __ge__
+    return self._cmp_method(other, operator.ge)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 7263, in _cmp_method
+    result = op(self._values, other)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/pandas/core/ops/common.py", line 76, in new_method
+    return method(self, other)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/pandas/core/arraylike.py", line 60, in __ge__
+    return self._cmp_method(other, operator.ge)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/pandas/core/arrays/datetimelike.py", line 1008, in _cmp_method
+    return invalid_comparison(self, other, op)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isujong/miniconda3/envs/stock/lib/python3.12/site-packages/pandas/core/ops/invalid.py", line 40, in invalid_comparison
+    raise TypeError(f"Invalid comparison between dtype={left.dtype} and {typ}")
+TypeError: Invalid comparison between dtype=datetime64[ns] and Timestamp
+
