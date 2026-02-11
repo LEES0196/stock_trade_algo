@@ -1,2 +1,16 @@
 *.csv
 *.pyc
+__pycache__/
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Trained models (binary files)
+trading_agent/trained_models/
+*.zip
+*.pt
+*.pth
+
+# Logs
+*.log
